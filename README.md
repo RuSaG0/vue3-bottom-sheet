@@ -10,4 +10,4 @@ The code was originally taken from https://github.com/vaban-ru/vue-bottom-sheet/
 
 
 ## Props
-All the same as https://github.com/vaban-ru/vue-bottom-sheet/, but you should use v-model instead of open()/close() methods. For example, if you have a bottom sheet for mobile layout and a typical popup for desktop layout - close/open will be very inconvenient
+All the same as https://github.com/vaban-ru/vue-bottom-sheet/, but you should use v-model instead of open()/close() methods. For example, if you have a bottom sheet for mobile layout and a typical popup for desktop layout - close/open will be very inconvenient. Also if you have more than 1 bottom-sheet in one page you will receive a lot of problems in previous (https://github.com/vaban-ru/vue-bottom-sheet/) implementation
