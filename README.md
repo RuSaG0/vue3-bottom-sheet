@@ -6,7 +6,7 @@ The code was originally taken from https://github.com/vaban-ru/vue-bottom-sheet/
 
 - Using v-model instead of ref & .open() .close() from parent & defineExpose() from child
 - Bug fix that it is possible to reopen the modal during the close animation.
-- In progress: delete from DOM while bottom sheet is hidden
+- delete from DOM while bottom sheet is hidden
 
 
 ## Props
