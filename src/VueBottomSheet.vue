@@ -223,7 +223,7 @@ const dragHandler = (event: IEvent, type: 'area' | 'main') => {
             }
             isDragging.value = false
             if (translateValue.value >= 10) {
-                changeVisibility(false)
+                close()
             } else {
                 translateValue.value = 0
             }
@@ -266,6 +266,8 @@ nextTick(() => {
  * Open bottom sheet method
  */
 const open = () => {
+    isAnimatedAtTheMoment.value = true
+
     translateValue.value = 0
 
         setTimeout(() => {
@@ -281,9 +283,15 @@ const open = () => {
  * Close bottom sheet method
  */
 const close = async () => {
+    if (isAnimatedAtTheMoment.value)
+        return
+
     translateValue.value = 100
 
     setTimeout(() => {
+        if (isAnimatedAtTheMoment.value)
+            return
+
         document.documentElement.style.overflowY = 'auto'
         document.documentElement.style.overscrollBehavior = ''
         emit('closed')
@@ -292,26 +300,12 @@ const close = async () => {
     }, props.transitionDuration * 1000)
 }
 
-watch(()=> isAnimatedAtTheMoment.value, (_value) => {
-    console.info('watch isAnimatedAtTheMoment', _value);
-})
-
-/**
- * Open / Close bottom sheet impl
- */
-const changeVisibility = (_shouldOpen: boolean) => {
-    isAnimatedAtTheMoment.value = true
-    _shouldOpen ? open() : close();
-}
-
 /**
  * Click on overlay handler
  */
 const clickOnOverlayHandler = () => {
-    if (props.overlayClickClose) {
-        if(isAnimatedAtTheMoment.value)
-            return
-        changeVisibility(false)
+    if (props.overlayClickClose && !isAnimatedAtTheMoment.value) {
+        close()
     }
 }
 
@@ -328,11 +322,7 @@ const pixelToVh = (pixel: number) => {
 watch(
     () => props.modelValue,
     (_isOpen: boolean) => {
-        if(isAnimatedAtTheMoment.value) {
-            return
-        }
-        isAnimatedAtTheMoment.value = true
-        changeVisibility(_isOpen)
+        _isOpen ? open() : close()
     },
 )
 
@@ -342,7 +332,7 @@ const keyupHandler = (event: KeyboardEvent) => {
         isFocused(event.target as HTMLElement)
 
     if (event.key === 'Escape' && !isSheetElementFocused) {
-        changeVisibility(false)
+        close()
     }
 }
 
@@ -350,7 +340,7 @@ onMounted(() => {
     window.addEventListener('keyup', keyupHandler)
 
     if (props.modelValue) {
-        changeVisibility(props.modelValue)
+        open()
     }
 })
 
