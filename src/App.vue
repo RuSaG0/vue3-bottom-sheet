@@ -154,7 +154,7 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-import VueBottomSheet from '@/VueBottomSheet.vue'
+import VueBottomSheet from './VueBottomSheet.vue'
 
 const overlay = ref(true)
 const maxWidth = ref(640)
